@@ -17,9 +17,29 @@ public class AppUser {
     private Long id;
     @Column(unique = true)
     private String username;
+    @Column
+    private String address;
+    
+    @Column()
+    private String phoneNumber;
+    
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+    
+    @Column()
     private boolean actived;
+    
+    private String confirmedPassword; 
+    
+    @Column()
+    private String gender;
+    
+    public AppUser(String username , String password,String confirmedPassword ) {
+    	this.username = username;
+    	this.password = password;
+    	this.confirmedPassword = confirmedPassword;
+    }
+    
     @ManyToMany(fetch = FetchType.EAGER)
     private Collection<AppRole> roles=new ArrayList<>();
 }
