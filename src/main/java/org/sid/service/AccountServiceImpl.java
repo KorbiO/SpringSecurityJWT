@@ -34,6 +34,26 @@ public class AccountServiceImpl implements AccountService {
         addRoleToUser(username,"USER");
         return appUser;
     }
+     @Override
+	public AppUser saveFournisseur(String username, String password, String confirmedPassword, String phoneNumber,
+			String gender, String address) {
+		AppUser  user=appUserRepository.findByUsername(username);
+        if(user!=null) throw new RuntimeException("Fournisseur already exists");
+        if(!password.equals(confirmedPassword)) throw new RuntimeException("Please confirm your password");
+        AppUser appUser=new AppUser();
+        appUser.setUsername(username);
+        appUser.setActived(true);
+        appUser.setGender(gender);
+        appUser.setPhoneNumber(phoneNumber);
+        appUser.setAddress(address);
+        appUser.setPassword(bCryptPasswordEncoder.encode(password));
+        appUser.setConfirmedPassword(bCryptPasswordEncoder.encode(confirmedPassword));
+       
+        appUserRepository.save(appUser);
+        addRoleToUser(username,"FOURNISSEUR");
+        System.out.println(appUser.getRoles());
+        return appUser;
+	}
 
     @Override
     public AppRole save(AppRole role) {
